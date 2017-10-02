@@ -63,6 +63,7 @@ classdef MLC2 < handle
         genealogy(obj,ngen,idv);
         m=show_best(obj,fig);
         show_convergence(obj,nhisto,Jmin,Jmax,linlog,sat,gen_range,axis);
+        obj=insert_individual(obj,idv);
         
         function obj=MLC2(varargin)
             vers = '0.2.5';

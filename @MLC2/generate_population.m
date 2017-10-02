@@ -24,9 +24,14 @@ function mlc=generate_population(mlc)
 %
 %    You should have received a copy of the GNU General Public License
 %    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-mlc.population=MLCpop(mlc.parameters);
+if isempty(mlc.population)
+    mlc.population=MLCpop(mlc.parameters);
+end
+if isempty(mlc.table)
     [mlc.population(1),mlc.table]=mlc.population.create(mlc.parameters);
+else
+    [mlc.population(1),mlc.table]=mlc.population.create(mlc.parameters,mlc.table);
+end
     mlc.population(1).state='created';
 
 
