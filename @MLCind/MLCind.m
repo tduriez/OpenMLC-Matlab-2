@@ -69,6 +69,7 @@ classdef MLCind < handle
         hash
         formal
         complexity
+        comment
     end
     
     methods
@@ -91,6 +92,7 @@ classdef MLCind < handle
             obj.formal='';
             obj.complexity=0;
             obj.evaluation_time=[];
+            obj.comment='';
         end     
     end
 end

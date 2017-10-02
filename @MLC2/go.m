@@ -71,9 +71,11 @@ end
                 curgen=curgen+1; 
                 if figs>0
                     mlc.show_best;
+                    drawnow;
                 end
                 if figs>1
                     mlc.show_convergence;
+                    drawnow;
                 end
                 if curgen<=ngen
                     mlc.evolve_population;
