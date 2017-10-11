@@ -27,6 +27,13 @@ function mlcind=generate(mlcind,mlc_parameters,varargin)
 
 switch mlc_parameters.individual_type
     case 'tree'
+        % Tree individuals are created as:
+        %                 root
+        %                 //|\\
+        %               / / | \ \
+        %              @ @  @  @ @  (Ex for 5 control laws)
+        %  for five control laws. Then the growth function is called.
+        
         mlcind.type='tree';
         mlcind.value=['(root @' repmat(' @',[1 mlc_parameters.controls-1]) ')'];
         type=varargin{1};
@@ -42,6 +49,30 @@ switch mlc_parameters.individual_type
         mlcind.hash=hex2num(bit32(1:16));
         mlcind.formal=readmylisp_to_formal_MLC(mlcind.value,mlc_parameters);
         mlcind.complexity=tree_complexity(mlcind.value,mlc_parameters);
+        
+    case 'LGP'
+        % Linear GP individuals are of the form:
+        % OB IB1 OP IB2
+        % OB IB1 OP IB2
+        % OB IB1 OP IB2
+        % OB IB1 OP IB2
+        % ....
+        % OB: Ouput Buffer
+        % IB: Input Buffer
+        % OP: Operation code
+        
+        mlcind.type='LGP';
+        type=varargin{1};
+        if numel(type)==1;
+            mlcind.value=generate_indiv_LGP(mlc_parameters,type);
+        else
+            mlcind.value=type;
+        end
+        bit32=DataHash(mlcind.value);
+        mlcind.hash=hex2num(bit32(1:16));
+        mlcind.formal=readmyLGP_to_formal_MLC(mlcind.value,mlc_parameters);
+        mlcind.complexity=LGP_complexity(mlcind.value,mlc_parameters);
+        
 end
 
 

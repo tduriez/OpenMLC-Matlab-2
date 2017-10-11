@@ -32,6 +32,7 @@ properties
     controls
     sensor_prob
     leaf_prob
+    bufferspersensor=4
     range
     precision
     opsetrange
