@@ -27,7 +27,14 @@ switch mlc_parameters.individual_type
             new_ind1.generate(mlc_parameters,m1);
             new_ind2=MLCind;
             new_ind2.generate(mlc_parameters,m2);
-    end
+            
+        case 'LGP'
+            [m1,m2,fail]=crossover_LGP(mlcind.value,mlcind2.value);
+            new_ind1=MLCind;
+            new_ind1.generate(mlc_parameters,m1);
+            new_ind2=MLCind;
+            new_ind2.generate(mlc_parameters,m2);
+end
 
 
 
