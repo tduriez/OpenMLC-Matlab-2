@@ -13,6 +13,6 @@ new_value1=[old_value1(1:iReplacement1-1,:);
     old_value2(iReplacement2:nReplacement2-1,:);
     old_value1(iReplacement1+nReplacement1:end,:)];
 
-new_value2=[old_value1(1:iReplacement2-1,:);
+new_value2=[old_value2(1:iReplacement2-1,:);
     old_value1(iReplacement1:nReplacement1-1,:);
     old_value2(iReplacement2+nReplacement2:end,:)];

@@ -19,9 +19,11 @@ function out=compare(mlcind,mlcind2)
 %    You should have received a copy of the GNU General Public License
 %    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-switch mlcind.type
+    switch mlcind.type
         case 'tree'
             out=strcmp(mlcind.value,mlcind2.value);
+        case 'LGP'
+            out=all(mlcind.value==mlcind2.value);
     end
 end
 

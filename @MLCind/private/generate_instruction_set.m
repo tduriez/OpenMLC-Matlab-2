@@ -1,5 +1,13 @@
    function instructions=generate_instruction_set(nInstructions,nBuffers,nConstants,parameters,previous_instructions)
+   debug=0;     
         
+        if debug
+            fprintf('nInstructions = %d\n',nInstructions);
+            fprintf('nBuffers = %d\n',nInstructions);
+            fprintf('nConstants = %d\n',nInstructions);
+            fprintf('nargin = %d\n',nargin);
+        end
+   
         SensorOrConstant=rand(nInstructions,1)<parameters.sensor_prob;
         Operations=parameters.opsetrange(ceil(rand(nInstructions,1)*numel(parameters.opsetrange)));
         OutputBuffer=ceil(rand(nInstructions,1)*nBuffers);

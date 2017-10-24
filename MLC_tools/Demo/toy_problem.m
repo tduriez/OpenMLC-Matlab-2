@@ -18,6 +18,7 @@ end
 % end
 
 if nargin==4
+    figure(444)
     subplot(2,1,1)
     plot(x,y,x,y2,'*',x,y3)
     subplot(2,1,2)

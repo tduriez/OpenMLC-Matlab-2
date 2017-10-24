@@ -1,5 +1,7 @@
-function new_value=mutate_LGP(old_value,parameters,type);
+function [new_value,fail]=mutate_LGP(old_value,parameters,type);
     nTypes=3;
+    fail=0;
+    
     
     if nargin<3
         type=ceil(rand*nTypes);
@@ -9,11 +11,13 @@ function new_value=mutate_LGP(old_value,parameters,type);
     Constants=linspace(-parameters.range,parameters.range,round(2/(10^-parameters.precision)));
     nConstants=numel(Constants);
 
+    
     switch type
         %% replace n consecutive instructions by new set of m consecutive instructions. 
         case 1
             iReplacement=ceil(rand*size(old_value,1));
             nReplacement=ceil(rand*size(old_value,1))-iReplacement;
+            nReplacement=max(1,nReplacement);
             mReplacement=ceil((rand+0.5)*nReplacement*1.5);
             
             new_value1=old_value(1:iReplacement-1,:);
