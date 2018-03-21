@@ -19,7 +19,7 @@ function idv_formal=readmyLGP_to_formal_MLC(idv_value,parameters)
             end
             the_exp=strrep(the_exp,'arg2',arg2);
         end
-        Buffers{idv_value(i,1)}=sprintf('(%s)',the_exp);
+        Buffers{idv_value(i,1)}=sprintf('%s',the_exp);
     end
     
     idv_formal=Buffers{1};
