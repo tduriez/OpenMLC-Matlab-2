@@ -9,7 +9,7 @@ classdef MLCind < handle
 % functionnalities.
 %
 % MLCind properties:
-%    type                - type of individual (expression trees only now)
+%    type                - type of individual ('tree' (GP) or 'ga' (GA))
 %    value               - string or matrice representing the individual 
 %                          in the representation considered in 'type'
 %    cost                - current cost value of the individual (average of
@@ -23,8 +23,8 @@ classdef MLCind < handle
 %    hash                - hash of 'value' to help finding identical
 %                          individuals (will be turned to private)
 %    formal              - matlab interpretable expression of the
-%                          individual
-%    complexity          - weighted addition of operators
+%                          individual (GP)
+%    complexity          - weighted addition of operators (GP)
 %
 % MLCind methods:
 %    generate            - creates one individual according to the current

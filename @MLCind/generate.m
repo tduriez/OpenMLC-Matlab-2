@@ -42,6 +42,22 @@ switch mlc_parameters.individual_type
         mlcind.hash=hex2num(bit32(1:16));
         mlcind.formal=readmylisp_to_formal_MLC(mlcind.value,mlc_parameters);
         mlcind.complexity=tree_complexity(mlcind.value,mlc_parameters);
+    case 'ga'
+ 	mlcind.type='ga';
+        mlcind.value=[];
+        type=varargin{1};
+        if numel(type)==1
+            for i=1:mlc_parameters.controls
+                mlcind.value=generate_indiv_ga(mlcind.value,mlc_parameters,type);
+            end
+        else
+            mlcind.value=type;
+        end
+        bit32=DataHash(mlcind.value);
+        mlcind.hash=hex2num(bit32(1:16));
+        mlcind.formal=[];
+        mlcind.complexity=0;
+	
 end
 
 
