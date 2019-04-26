@@ -44,11 +44,11 @@ switch mlc_parameters.individual_type
         mlcind.complexity=tree_complexity(mlcind.value,mlc_parameters);
     case 'ga'
  	mlcind.type='ga';
-        mlcind.value=[];
+        
         type=varargin{1};
         if numel(type)==1
             for i=1:mlc_parameters.controls
-                mlcind.value=generate_indiv_ga(mlcind.value,mlc_parameters,type);
+                mlcind.value=generate_indiv_ga(mlc_parameters);
             end
         else
             mlcind.value=type;

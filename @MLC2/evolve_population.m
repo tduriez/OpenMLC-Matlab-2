@@ -26,7 +26,8 @@ function mlc=evolve_population(mlc,n)
 
 if nargin<2
         n=length(mlc.population);
-    end
+
+end
     [mlc.population(n+1),mlc.table]=mlc.population(n).evolve(mlc.parameters,mlc.table);
     
     %% Remove duplicates

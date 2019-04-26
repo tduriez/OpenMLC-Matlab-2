@@ -1,4 +1,4 @@
-function [m]=generate_indiv_ga(m,gen_param,type)
+function [m]=generate_indiv_ga(gen_param)
 %generate_indiv_ga    Private function of the MLC CLASS. 
 %
 %   Copyright (C) 2015-2019 Thomas Duriez.
@@ -20,16 +20,16 @@ function [m]=generate_indiv_ga(m,gen_param,type)
 s=size(gen_param.range);
 
 if numel(gen_param.range)==1
-    new_line=(rand(1,gen_param.sensors)*2-1)*gen_param.range;
+    m=(rand(1,gen_param.sensors)*2-1)*gen_param.range;
 elseif s(1)==1 && s(2)==gen_param.sensors
-    new_line=(rand(1,gen_param.sensors)*2-1).*gen_param.range;
+    m=(rand(1,gen_param.sensors)*2-1).*gen_param.range;
 elseif s(1)==2 && s(2)==gen_param.sensors
     offsets=mean(gen_param.range);
-    ranges=abs(diff(range)/2);
-    new_line=(rand(1,gen_param.sensors)*2-1).*ranges+offsets;
+    ranges=abs(diff(gen_param.range)/2);
+    m=(rand(1,gen_param.sensors)*2-1).*ranges+offsets;
 end
 
-m=[m;new_line];
+
     
 
 
