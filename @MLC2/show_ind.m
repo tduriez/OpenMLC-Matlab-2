@@ -1,9 +1,12 @@
-function out=compare(mlcind,mlcind2)
-% COMPARE     compares two MLCind value properties.
+function m=show_ind(mlc,n,N)
+% SHOW_IND display selected individual (MLC2 Toolbox)
 %
-%   ISEQUAL=COMPARE(MLCIND1,MLCIND2) returns 1 if both values are equal.
+%   IND_OBJ=MLC_OBJ.SHOW_IND(n,N) returns the <a href="matlab:help MLCind">MLCind</a> object corresponding to
+%       the individual as per index in the <a href="matlab:help MLCtable">MLCind</a>. Additionaly calls the evaluation function avec
+%       N as fourth argument, which can be used to implement graphic
+%       functions.
 %
-%   Copyright (C) 2015-2017 Thomas Duriez.
+%   Copyright (C) 2015-2019 Thomas Duriez.
 %   This file is part of the OpenMLC-Matlab-2 Toolbox. Distributed under GPL v3.
 
 %    This program is free software: you can redistribute it and/or modify
@@ -19,22 +22,12 @@ function out=compare(mlcind,mlcind2)
 %    You should have received a copy of the GNU General Public License
 %    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    switch mlcind.type
-        case 'tree'
-            out=strcmp(mlcind.value,mlcind2.value);
-        case 'LGP'
-            out=all(mlcind.value==mlcind2.value);
-	case 'ga'
-	    out=all(mlcind.value==mlcind2.value);
+if nargin<3
+        fig=1;
     end
-end
-
-
-
-
-
-
-
-
-
+    eval(['heval=@' mlc.parameters.evaluation_function ';']);
+            f=heval;
+     
+     m=mlc.table.individuals(n);        
+    feval(f,m,mlc.parameters,1,fig);
 

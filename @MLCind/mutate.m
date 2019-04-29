@@ -6,7 +6,11 @@ function [new_ind,fail]=mutate(mlcind,mlc_parameters)
             [newvalue,fail]=mutate_tree(mlcind.value,mlc_parameters);
             new_ind=MLCind;
             new_ind.generate(mlc_parameters,newvalue);
-        case 'LGP'
+	case 'ga'
+            [newvalue,fail]=mutate_ga(mlcind.value,mlc_parameters);
+            new_ind=MLCind;
+            new_ind.generate(mlc_parameters,newvalue);
+	case 'LGP'
             [newvalue,fail]=mutate_LGP(mlcind.value,mlc_parameters);
             new_ind=MLCind;
             new_ind.generate(mlc_parameters,newvalue);

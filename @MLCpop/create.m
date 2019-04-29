@@ -9,6 +9,8 @@ indiv_to_generate=find(mlcpop.individuals==-1);
 n_indiv_to_generate=sum(mlcpop.individuals==-1);
 n_indiv=length(mlcpop.individuals);
 i=1;
+
+
  if verb>1;fprintf(['Using "' mlc_parameters.generation_method '" method\n']);end
     switch mlc_parameters.generation_method
         case 'random_maxdepth'
@@ -25,6 +27,9 @@ i=1;
 %                    fprintf('replica\n')
 %                end
 %             end
+
+        case 'fullga'
+            [mlcpop,mlctable]=fill_fullga(mlcpop,mlctable,mlc_parameters,indiv_to_generate,i,verb);
 case 'fixed_maxdepthfirst'
             [mlcpop,mlctable]=fill_creation(mlcpop,mlctable,mlc_parameters,indiv_to_generate,i,1,verb);
         case 'random_maxdepthfirst'
@@ -56,6 +61,7 @@ case 'fixed_maxdepthfirst'
                 [mlcpop,mlctable,i]=fill_creation(mlcpop,mlctable,changed_param,indiv_to_generate(1:n(j)+round((n(j+1)-n(j))/2)),i,1,verb);
                 [mlcpop,mlctable,i]=fill_creation(mlcpop,mlctable,changed_param,indiv_to_generate(1:n(j+1)),i,3,verb);
             end
+        case 'ga'
             
     end
     

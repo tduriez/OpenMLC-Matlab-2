@@ -47,13 +47,13 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
             
             nidx=length(eval_idx);
             
-            parfor i=istart:nidx;
+            parfor i=istart:nidx
                 if verb>3;fprintf('Individual %i from generation %i\n',eval_idx(i),ngen);end
                 if verb>4;fprintf('%s\n',mlctable.individuals(idv_to_evaluate(i)).value);end
                 %retrieve object in the table
                 m=mlctable.individuals((idv_to_evaluate(i)));
-                
                 JJ(i)=feval(f,m,mlc_parameters,i);
+                
                 date_ev(i)=now;
                 if verb>2;loopprog(nidx);end
             end

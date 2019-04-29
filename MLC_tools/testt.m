@@ -1,10 +1,14 @@
-function out=compare(mlcind,mlcind2)
-% COMPARE     compares two MLCind value properties.
+function f=testt(t,T)
+%TESTT program crashes when t>T 
 %
-%   ISEQUAL=COMPARE(MLCIND1,MLCIND2) returns 1 if both values are equal.
+%   F=TESTT(t,T)
 %
-%   Copyright (C) 2015-2017 Thomas Duriez.
-%   This file is part of the OpenMLC-Matlab-2 Toolbox. Distributed under GPL v3.
+%   Adding this to a function to integrate in ODExxx allows to trigger an error 
+%   when t>T. Calling this function with t=TOC allows to stop integration
+%   after T seconds in real time. Usually used inside a TRY/CATCH sequence.
+%
+%   Copyright (C) 2018 Thomas Duriez
+%   This file is part of the OpenMLC Toolbox 2. Distributed under GPL v3.
 
 %    This program is free software: you can redistribute it and/or modify
 %    it under the terms of the GNU General Public License as published by
@@ -19,15 +23,53 @@ function out=compare(mlcind,mlcind2)
 %    You should have received a copy of the GNU General Public License
 %    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    switch mlcind.type
-        case 'tree'
-            out=strcmp(mlcind.value,mlcind2.value);
-        case 'LGP'
-            out=all(mlcind.value==mlcind2.value);
-	case 'ga'
-	    out=all(mlcind.value==mlcind2.value);
+ 
+    if t>T
+   fprintf('Crash provided by testt. Consider augmenting the allowed evauation time if the occurence is high.m\n');
+   crash % variable is not defined, hence produces an error
+    else
+        f=0;
     end
-end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
