@@ -44,6 +44,7 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
                 matlabpool 6
             end
             end
+           
             
             nidx=length(eval_idx);
             
@@ -60,7 +61,13 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
             delete looppg.txt
             
             
-            
+           
+            case 'mfile_all'
+                eval(['heval=@' mlc_parameters.evaluation_function ';']);
+                f=heval;
+                JJ=feval(f,mlctable.individuals(mlcpop.individuals),mlc_parameters,i);
+            end
+                
             
             case 'mfile_standalone'
             eval(['heval=@' mlc_parameters.evaluation_function ';']);
