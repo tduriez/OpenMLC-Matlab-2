@@ -24,7 +24,7 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
     end
 
     %% Beginning method dependent evaluation
-
+   	
     switch mlc_parameters.evaluation_method
         case 'test'
             for i=istart:length(eval_idx);
@@ -63,10 +63,12 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
             
            
             case 'mfile_all'
+		tic
                 eval(['heval=@' mlc_parameters.evaluation_function ';']);
                 f=heval;
-                JJ=feval(f,mlctable.individuals(mlcpop.individuals),mlc_parameters,i);
-            end
+                JJ=feval(f,mlctable.individuals(mlcpop.individuals),mlc_parameters);
+		if verb>1;fprintf('Done in %f s\n',toc);end
+            
                 
             
             case 'mfile_standalone'
@@ -89,28 +91,36 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
     end
 
     %% End of effective evaluation
-    if  mlc_parameters.saveincomplete==1 && ~strcmp(mlc_parameters.evaluation_method,'multithread_function');
+    if  mlc_parameters.saveincomplete==1 && any(strfind(mlc_parameters.evaluation_method,'standalone'));
         delete(fullfile(mlc_parameters.savedir,'MLC_incomplete.mat'));
     end
 
 
     %% MLCtable update
     if verb>0;fprintf('Updating database\n');end
-    for i=1:length(eval_idx);
-        if verb>2;fprintf('Individual %i from generation %i\n',eval_idx(i),ngen);end
-        if verb>2;fprintf('%s\n',mlctable.individuals(idv_to_evaluate(i)).value);end
-        J=JJ(i);
-        %% Checking numerical value
-        if isnan(J) || isinf(J)
-            if verb>4;fprintf('That''s a NaN !\n');end
-            J=mlc_parameters.badvalue;
-        elseif J>mlc_parameters.badvalue
-            J=mlc_parameters.badvalue;
-        end
+    
+    %% Checking numerical value
+    JJ(isnan(JJ) | isinf(JJ) | JJ>mlc_parameters.badvalue)=mlc_parameters.badvalue;
+    J2=JJ;
+    idvs=mlctable.individuals(idv_to_evaluate);
+    try
+        
+    parfor i=1:length(eval_idx);
       %  save test idv_to_evaluate
-        mlctable.update_individual(idv_to_evaluate(i),J);
-        mlcpop.costs(eval_idx(i))=mlctable.individuals(idv_to_evaluate(i)).cost;
+        idvs(i).evaluate(JJ(i));
+        J2(i)=idvs(i).cost;
     end
+    mlctable.costlist(idv_to_evaluate)=J2;
+    catch
+        fprintf('Parralel computing not possible, updating database slowly\n')
+       for i=1:length(eval_idx);
+      %  save test idv_to_evaluate
+        idvs(i).evaluate(JJ(i));
+        J2(i)=idvs(i).cost;
+       end
+       mlctable.costlist(idv_to_evaluate)=J2;
+    end
+    mlcpop.costs(eval_idx)=J2;
 end
 
 

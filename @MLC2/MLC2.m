@@ -62,7 +62,7 @@ classdef MLC2 < handle
         obj=go(obj,n,figs);
         genealogy(obj,ngen,idv);
         m=show_best(obj,fig);
-        m=show_ind(obj,n,gen);
+        [m,J]=show_ind(obj,n,gen);
         show_convergence(obj,nhisto,Jmin,Jmax,linlog,sat,gen_range,axis);
         obj=insert_individual(obj,idv);
         createScript(obj,scriptname);

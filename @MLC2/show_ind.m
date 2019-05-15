@@ -1,4 +1,4 @@
-function m=show_ind(mlc,n,N)
+function [m,J]=show_ind(mlc,n,N)
 % SHOW_IND display selected individual (MLC2 Toolbox)
 %
 %   IND_OBJ=MLC_OBJ.SHOW_IND(n,N) returns the <a href="matlab:help MLCind">MLCind</a> object corresponding to
@@ -22,12 +22,13 @@ function m=show_ind(mlc,n,N)
 %    You should have received a copy of the GNU General Public License
 %    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-if nargin<3
+    if nargin<3
         fig=1;
     end
     eval(['heval=@' mlc.parameters.evaluation_function ';']);
             f=heval;
      
      m=mlc.table.individuals(n);        
-    feval(f,m,mlc.parameters,1,fig);
+    J=feval(f,m,mlc.parameters,1,fig);
+
 

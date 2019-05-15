@@ -18,7 +18,7 @@ function show_convergence(mlc,nhisto,Jmin,Jmax,linlog,maxsat,gen_range,axis)
 %
 %   If only one generation is present the histogram is 2D, 3D otherwise.
 %
-%   Copyright (C) 2015-2017 Thomas Duriez.
+%   Copyright (C) 2015-2019 Thomas Duriez.
 %   This file is part of the OpenMLC-Matlab-2 Toolbox. Distributed under GPL v3.
 
 %    This program is free software: you can redistribute it and/or modify
@@ -65,6 +65,12 @@ end
        
         pop=pop(1:length(pop)-1);
     end
+    
+    
+bestJ=zeros(1,length(pop));
+medJ =zeros(1,length(pop));
+selJ =zeros(1,length(pop));
+    
     nb=length(pop(1).costs);
     J=zeros(nb,length(pop));
     for i=1:length(pop)
@@ -102,7 +108,7 @@ end
      end
     % plot3(ones(size(binhisto(1:end-1)))*ngen,binhisto(1:end-1),histo(1:end-1,ngen),'r','linewidth',2);
      hold off
-     set(gca,'xlim',[1 ngen],'ylim',[min(binhisto(:)),max(binhisto(:))],'zlim',[0 max(max(histo(1:end-1,:)))],'clim',[-1/5 maxsat]);
+     set(gca,'xlim',[1 ngen],'ylim',[min(binhisto(:)),max(binhisto(:))],'zlim',[0 max(max(histo(1:end-1,:)))+2],'clim',[-1/5 maxsat]);
      xlabel('n (generation index)','Interpreter','latex','fontsize',30);
      ylabel('J','Interpreter','latex','fontsize',30);
      set(gcf,'color',[1 1 1]);
@@ -113,9 +119,44 @@ end
      end
     
      c=colormap(gray);
-     c=flipud(gray)
+     c=flipud(gray);
      colormap(c)
      %clb=colorbar;set(clb,'fontsize',20,'linewidth',2,'fontweight','bold')
+     
+     for i=1:ngen
+        bestJ(i)=pop(i).costs(1);
+        medJ(i)=median(pop(i).costs);
+    end
+     
+     if strcmp(mlc.parameters.selectionmethod,'tournament')
+        tsize=mlc.parameters.tournamentsize;
+        prob_sel=tsize*((mlc.parameters.size-(1:mlc.parameters.size))/(mlc.parameters.size-1)).^(tsize-1);
+        [~,k]=min(abs(cumtrapz(prob_sel)-mlc.parameters.size*0.99));
+        
+        for i=1:ngen
+            selJ(i)=pop(i).costs(k);
+        end
+    
+        try
+            heval=@(a,b,c,d)(a+b+c+d);
+            eval(['heval=@' mlc.parameters.evaluation_function ';']);
+            J0=feval(heval,'0',mlc.parameters,1);
+            hold on;p0=plot3(1:ngen,(1:ngen)*0+J0,(1:ngen)*0+max(max(histo(1:end-1,:)))+1,'--r','linewidth',1.2);
+            hold on;p1=plot3([1:ngen;1:ngen;1:ngen;1:ngen]',[bestJ;medJ;(1:ngen)*0+J0;selJ]',[bestJ;bestJ;medJ;selJ]'*0+max(max(histo(1:end-1,:)))+1,'linewidth',2);
+            hold off
+            legend([p1,p0],'Best ind.','Median ind.','99% selection','Nul indiv.')
+            
+          
+            
+        catch
+            fprintf('Can''t display J0 value due to evaluator\nExpect it to be fixed some day\n')
+            hold on;p1=plot3([1:ngen;1:ngen;1:ngen]',[bestJ;medJ;selJ]',[bestJ;medJ;selJ]'*0+max(max(histo(1:end-1,:)))+1,'linewidth',2);
+            hold off
+            legend(p1,'Best ind.','Median ind.','99% selection')
+        end
+    end
+     
+     
      t=title('Population repartition (\%)');set(t,'interpreter','latex','fontsize',30)
         view(0,90)
         
