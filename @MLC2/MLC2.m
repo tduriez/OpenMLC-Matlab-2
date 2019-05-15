@@ -66,6 +66,7 @@ classdef MLC2 < handle
         show_convergence(obj,nhisto,Jmin,Jmax,linlog,sat,gen_range,axis);
         obj=insert_individual(obj,idv);
         createScript(obj,scriptname);
+        disp(obj);
         
         function obj=MLC2(varargin)
             vers = '0.2.5';
