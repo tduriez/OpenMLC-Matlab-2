@@ -11,7 +11,7 @@ function disp(obj)
             
             fprintf('\n')
             %% Problem definition
-            if  strfind(obj.parameters.evaluation_method,'files');
+            if  strcmp(obj.parameters.evaluation_method,'files') 
                 fprintf('Problem linked with files :\n');
                 fprintf('Directory: \t\t''%s''\n',obj.parameters.exchangedir);
                 fprintf('Individual: \t\t''%s''\n',obj.parameters.indfile);
@@ -21,6 +21,7 @@ function disp(obj)
             end
             fprintf('\n');
             %% Problem parameters
+            if ~strcmp(obj.parameters.individual_type,'ga')
             fprintf('Individuals: \t\t%i\n',obj.parameters.size);
             fprintf('Sensors: \t\t%i\n',obj.parameters.sensors);
             fprintf('Constants range: \t[-%.2f %.2f]\n',obj.parameters.range,obj.parameters.range);
@@ -31,6 +32,13 @@ function disp(obj)
             operations=[operations obj.parameters.opset(length(obj.parameters.opset)).op];
             fprintf('Selected operations: \t(%s)\n',operations);
             fprintf('\n');
+            
+            else
+                fprintf('Individuals: \t\t%i\n',obj.parameters.size);
+                fprintf('Inputs: \t\t%i\n',obj.parameters.sensors);
+                
+                
+            end
             %% Problem state
             if isempty(obj.population)
                 fprintf('Population ');
@@ -43,7 +51,7 @@ function disp(obj)
                 fprintf('.\n');
             else
                 ngen=length(obj.population);
-                if min(obj.population(ngen).fitnesses)==-1; to_evaluate=1;else to_evaluate=0;end
+                if min(obj.population(ngen).costs)==-1; to_evaluate=1;else to_evaluate=0;end
                 fprintf('%i generations filled, %i generations evaluated.\n',ngen,ngen-to_evaluate);
                 if ngen-to_evaluate >0
                     fprintf('\n')

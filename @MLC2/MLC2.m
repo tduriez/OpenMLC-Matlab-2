@@ -67,6 +67,7 @@ classdef MLC2 < handle
         obj=insert_individual(obj,idv);
         createScript(obj,scriptname);
         disp(obj);
+        stats(obj,nb);
         
         function obj=MLC2(varargin)
             vers = '0.2.5';
