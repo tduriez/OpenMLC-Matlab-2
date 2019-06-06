@@ -15,10 +15,22 @@ switch mlc_parameters.selectionmethod
         [~,k]=min(mlcpop.costs(selected));
         idv_orig=selected(k);
         
+    case 'FitnessProp'
+        fitnesses=1./mlcpop.costs;
+        probs=cumsum(fitnesses)/sum(fitnesses);
+        idx=find(sign(rand-probs)==-1,1);
+        idv_orig=idx_source_pool(idx);
         
+        
+    case 'FitnessPropAdj'
+        fitnesses=1./(1+mlcpop.costs);
+        probs=cumsum(fitnesses)/sum(fitnesses);
+        idx=find(sign(rand-probs)==-1,1);
+        idv_orig=idx_source_pool(idx);
         
         
 end
+
 
 
 

@@ -68,6 +68,7 @@ end
                 mlc.evaluate_population;
                 if mlc.parameters.save==1;save(fullfile(mlc.parameters.savedir,'mlc_ae.mat'),'mlc');end
             case 'evaluated'
+		mlc.stats;
                 curgen=curgen+1; 
                 if figs>0
                     mlc.show_best;

@@ -39,16 +39,13 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
         case 'mfile_multi'
             eval(['heval=@' mlc_parameters.evaluation_function ';']);
             f=heval;
-            try
-            if matlabpool('size')==0
-                matlabpool 6
-            end
-            end
+            
            
             
             nidx=length(eval_idx);
-            
+            ppm = ParforProgMon('MLC multithread evaluation', nidx);
             parfor i=istart:nidx
+                ppm.increment();
                 if verb>3;fprintf('Individual %i from generation %i\n',eval_idx(i),ngen);end
                 if verb>4;fprintf('%s\n',mlctable.individuals(idv_to_evaluate(i)).value);end
                 %retrieve object in the table
@@ -58,8 +55,7 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
                 date_ev(i)=now;
                 if verb>2;loopprog(nidx);end
             end
-            delete looppg.txt
-            
+           
             
            
             case 'mfile_all'
