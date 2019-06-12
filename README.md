@@ -22,13 +22,13 @@ You can find more information about MLC in the [MLC Book](http://www.springer.co
 
 ### I want a new feature
 
-While I will be including any bug fix, new features won't be included, unless bored. This is because most of the effort is given to the OpenMLC-Python implementation that even counts with a Graphical User Interface. Soon to be released.
+While I will fix bugs under finite time, I will only be including new features that serves my work or through pull request.
 
 Have fun, T.
 
 ### Copyright and License
 
-    Copyright (C) 2015-2017 Thomas Duriez.
+    Copyright (C) 2015-2019 Thomas Duriez.
     This file is part of the OpenMLC-Matlab-2 Toolbox. Distributed under GPL v3.
 
     This program is free software: you can redistribute it and/or modify
