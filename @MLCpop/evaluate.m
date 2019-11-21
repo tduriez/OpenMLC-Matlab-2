@@ -4,7 +4,7 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
     ngen=mlcpop.gen;
     %% If present, execute_before_evaluation
     if ~isempty(mlc_parameters.execute_before_evaluation)
-        eval(mlc_parameters.execute_before_evaluation);
+        feval(mlc_parameters.execute_before_evaluation,mlc_parameters,mlcpop,mlctable);
     end
         
     
@@ -62,7 +62,7 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
 		tic
                 eval(['heval=@' mlc_parameters.evaluation_function ';']);
                 f=heval;
-                JJ=feval(f,mlctable.individuals(mlcpop.individuals),mlc_parameters);
+                JJ=feval(f,mlctable.individuals(idv_to_evaluate),mlc_parameters);
 		if verb>1;fprintf('Done in %f s\n',toc);end
             
                 
@@ -116,6 +116,7 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
         idvs(i).evaluate(JJ(i));
         J2(i)=idvs(i).cost;
        end
+       
        mlctable.costlist(idv_to_evaluate)=J2;
     end
     mlcpop.costs(eval_idx)=J2;

@@ -71,10 +71,10 @@ bestJ=zeros(1,length(pop));
 medJ =zeros(1,length(pop));
 selJ =zeros(1,length(pop));
     
-    nb=length(pop(1).costs);
+    nb=length(pop(end).costs);
     J=zeros(nb,length(pop));
     for i=1:length(pop)
-        J(:,i)=pop(i).costs;
+        J(:,i)=pop(i).costs(1:nb);
     end
       % J=1./J-1; % From adjusted fitness to goal functional
      
@@ -130,8 +130,8 @@ selJ =zeros(1,length(pop));
      
      if strcmp(mlc.parameters.selectionmethod,'tournament')
         tsize=mlc.parameters.tournamentsize;
-        prob_sel=tsize*((mlc.parameters.size-(1:mlc.parameters.size))/(mlc.parameters.size-1)).^(tsize-1);
-        [~,k]=min(abs(cumtrapz(prob_sel)-mlc.parameters.size*0.99));
+        prob_sel=tsize*((mlc.parameters.size(end)-(1:mlc.parameters.size(end)))/(mlc.parameters.size(end)-1)).^(tsize-1);
+        [~,k]=min(abs(cumtrapz(prob_sel)-mlc.parameters.size(end)*0.99));
         
         for i=1:ngen
             selJ(i)=pop(i).costs(k);

@@ -16,14 +16,17 @@ switch mlc_parameters.selectionmethod
         idv_orig=selected(k);
         
     case 'FitnessProp'
-        fitnesses=1./mlcpop.costs;
+        try 
+        fitnesses=1./mlcpop.costs(idx_source_pool);
         probs=cumsum(fitnesses)/sum(fitnesses);
         idx=find(sign(rand-probs)==-1,1);
         idv_orig=idx_source_pool(idx);
-        
+        catch err
+            keyboard
+        end
         
     case 'FitnessPropAdj'
-        fitnesses=1./(1+mlcpop.costs);
+        fitnesses=1./(1+mlcpop.costs(idx_source_pool));
         probs=cumsum(fitnesses)/sum(fitnesses);
         idx=find(sign(rand-probs)==-1,1);
         idv_orig=idx_source_pool(idx);

@@ -54,13 +54,21 @@ function [mlcpop2,mlctable]=evolve(mlcpop,mlc_parameters,mlctable,mlcpop2)
                         old_ind=mlctable.individuals(mlcpop.individuals(idv_orig));
                         [new_ind,fail]=old_ind.mutate(mlc_parameters);                    
                     end
-                    [mlctable,number]=add_individual(mlctable,new_ind);
-                    mlcpop2.individuals(idv_dest)=number;
-                    mlcpop2.costs(idv_dest)=-1;
-                    mlcpop2.parents{idv_dest}=idv_orig;
-                    mlcpop2.gen_method(idv_dest)=2;
-                    mlctable.individuals(number).appearences=mlctable.individuals(number).appearences+1;
-                    individuals_created=individuals_created+1;
+                    
+                    if new_ind.preev(mlc_parameters);
+                       
+                        [mlctable,number]=add_individual(mlctable,new_ind);
+                        mlcpop2.individuals(idv_dest)=number;
+                        mlcpop2.costs(idv_dest)=-1;
+                        mlcpop2.parents{idv_dest}=idv_orig;
+                        mlcpop2.gen_method(idv_dest)=2;
+                        mlctable.individuals(number).appearences=mlctable.individuals(number).appearences+1;
+                        individuals_created=individuals_created+1;
+                    end
+                    
+    
+ 
+                    
                                        
                 case 'crossover'
                     fail=1;
@@ -77,21 +85,25 @@ function [mlcpop2,mlctable]=evolve(mlcpop,mlc_parameters,mlctable,mlcpop2)
                         [new_ind,new_ind2,fail]=old_ind.crossover(old_ind2,mlc_parameters);
                     end
                     
-                    [mlctable,number]=add_individual(mlctable,new_ind);
-                    mlcpop2.individuals(idv_dest)=number;
-                    mlcpop2.costs(idv_dest)=-1;
-                    mlcpop2.parents{idv_dest}=[idv_orig idv_orig2];
-                    mlcpop2.gen_method(idv_dest)=3;
-                    mlctable.individuals(number).appearences=mlctable.individuals(number).appearences+1;
-                    individuals_created=individuals_created+1;
+                    if new_ind.preev(mlc_parameters);
+                        [mlctable,number]=add_individual(mlctable,new_ind);
+                        mlcpop2.individuals(idv_dest)=number;
+                        mlcpop2.costs(idv_dest)=-1;
+                        mlcpop2.parents{idv_dest}=[idv_orig idv_orig2];
+                        mlcpop2.gen_method(idv_dest)=3;
+                        mlctable.individuals(number).appearences=mlctable.individuals(number).appearences+1;
+                        individuals_created=individuals_created+1;
+                    end
                     
-                    [mlctable,number2]=add_individual(mlctable,new_ind2);
-                    mlcpop2.individuals(idv_dest2)=number2;
-                    mlcpop2.costs(idv_dest2)=-1;
-                    mlcpop2.parents{idv_dest2}=[idv_orig idv_orig2];
-                    mlcpop2.gen_method(idv_dest2)=3;
-                    mlctable.individuals(number2).appearences=mlctable.individuals(number2).appearences+1;
-                    individuals_created=individuals_created+1;
+                    if new_ind2.preev(mlc_parameters);
+                        [mlctable,number2]=add_individual(mlctable,new_ind2);
+                        mlcpop2.individuals(idv_dest2)=number2;
+                        mlcpop2.costs(idv_dest2)=-1;
+                        mlcpop2.parents{idv_dest2}=[idv_orig idv_orig2];
+                        mlcpop2.gen_method(idv_dest2)=3;
+                        mlctable.individuals(number2).appearences=mlctable.individuals(number2).appearences+1;
+                        individuals_created=individuals_created+1;
+                    end
                                  
                     
             end
