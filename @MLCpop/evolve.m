@@ -47,6 +47,7 @@ function [mlcpop2,mlctable]=evolve(mlcpop,mlc_parameters,mlctable,mlcpop2)
                     individuals_created=individuals_created+1;
                     
                 case 'mutation'
+                    
                     fail=1;
                     while fail==1
                         idv_orig=choose_individual(mlcpop,mlc_parameters,idx_source_pool);
@@ -56,7 +57,6 @@ function [mlcpop2,mlctable]=evolve(mlcpop,mlc_parameters,mlctable,mlcpop2)
                     end
                     
                     if new_ind.preev(mlc_parameters);
-                       
                         [mlctable,number]=add_individual(mlctable,new_ind);
                         mlcpop2.individuals(idv_dest)=number;
                         mlcpop2.costs(idv_dest)=-1;
@@ -64,6 +64,8 @@ function [mlcpop2,mlctable]=evolve(mlcpop,mlc_parameters,mlctable,mlcpop2)
                         mlcpop2.gen_method(idv_dest)=2;
                         mlctable.individuals(number).appearences=mlctable.individuals(number).appearences+1;
                         individuals_created=individuals_created+1;
+                    else
+                        if verb>1;fprintf('preevaluation fail\n');end
                     end
                     
     
@@ -71,6 +73,7 @@ function [mlcpop2,mlctable]=evolve(mlcpop,mlc_parameters,mlctable,mlcpop2)
                     
                                        
                 case 'crossover'
+                   
                     fail=1;
                     while fail==1
                         idv_orig=choose_individual(mlcpop,mlc_parameters,idx_source_pool);
@@ -93,7 +96,10 @@ function [mlcpop2,mlctable]=evolve(mlcpop,mlc_parameters,mlctable,mlcpop2)
                         mlcpop2.gen_method(idv_dest)=3;
                         mlctable.individuals(number).appearences=mlctable.individuals(number).appearences+1;
                         individuals_created=individuals_created+1;
+                    else
+                        if verb>1;fprintf('preevaluation fail\n');end
                     end
+        
                     
                     if new_ind2.preev(mlc_parameters);
                         [mlctable,number2]=add_individual(mlctable,new_ind2);
@@ -103,6 +109,8 @@ function [mlcpop2,mlctable]=evolve(mlcpop,mlc_parameters,mlctable,mlcpop2)
                         mlcpop2.gen_method(idv_dest2)=3;
                         mlctable.individuals(number2).appearences=mlctable.individuals(number2).appearences+1;
                         individuals_created=individuals_created+1;
+                    else
+                        if verb>1;fprintf('preevaluation fail\n');end 
                     end
                                  
                     
