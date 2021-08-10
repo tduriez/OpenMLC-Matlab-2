@@ -12,15 +12,21 @@ function [mlcpop2,mlctable]=evolve(mlcpop,mlc_parameters,mlctable,mlcpop2)
     for i=1:length(idxsubgen2);
         idxsubgen2{i}=idxsubgen2{i}(mlcpop2.individuals(idxsubgen2{i})==-1);
         if verb>0;fprintf('Evolving sub-population %i/%i\n',i,mlcpop2.subgen);end
-        if length(idxsubgen)==1
-            idx_source_pool=idxsubgen{1};
+        
+        if length(idxsubgen2)==1
+            idx_source_pool=1:length(mlcpop.individuals);
         else
-            idx_source_pool=idxsubgen{i};
+            if length(idxsubgen)==1
+                idx_source_pool=idxsubgen{1};
+            else
+                idx_source_pool=idxsubgen{i};
+            end
         end
         individuals_created=0;
         %% elitism
         if nargin < 4
             for i_el=1:ceil(mlc_parameters.elitism/length(idxsubgen2));
+                
                 idv_orig=idx_source_pool(i_el);
                 idv_dest=idxsubgen2{i}(individuals_created+1);
                 mlcpop2.individuals(idv_dest)=mlcpop.individuals(idv_orig);
