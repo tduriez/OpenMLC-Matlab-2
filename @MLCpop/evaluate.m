@@ -39,7 +39,9 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
         case 'mfile_multi'
             eval(['heval=@' mlc_parameters.evaluation_function ';']);
             f=heval;
-            
+            try 
+                parpool
+            end
            
             
             nidx=length(eval_idx);
@@ -99,6 +101,11 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
     JJ(isnan(JJ) | isinf(JJ) | JJ>mlc_parameters.badvalue)=mlc_parameters.badvalue;
     J2=JJ;
     idvs=mlctable.individuals(idv_to_evaluate);
+    
+    try 
+        parpool
+    end
+    
     try
         
     parfor i=1:length(eval_idx);
