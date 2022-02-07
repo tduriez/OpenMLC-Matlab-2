@@ -2,6 +2,8 @@ function [mlcpop,mlctable,i]=fill_fullga(mlcpop,mlctable,mlc_parameters,indiv_to
 % copyright
 n_indiv_to_generate=length(indiv_to_generate);
 
+if strcmp(mlc_parameters.individual_type,'ga')
+
 
 s=size(mlc_parameters.range);
 
@@ -15,10 +17,24 @@ elseif s(1)==2 && s(2)==mlc_parameters.sensors
     values=(rand(n_indiv_to_generate,mlc_parameters.sensors)*2-1).*repmat(ranges,[n_indiv_to_generate 1])+repmat(offsets,[n_indiv_to_generate 1]);
 end
 
+% parfor j=1:n_indiv_to_generate
+%     mlcind(j)=MLCind;
+%     mlcind(j).generate(mlc_parameters,values(j,:));
+% end
+
 parfor j=1:n_indiv_to_generate
     mlcind(j)=MLCind;
     mlcind(j).generate(mlc_parameters,values(j,:));
 end
+
+elseif strcmp(mlc_parameters.individual_type,'ga_integer_permutation')
+    for j=1:n_indiv_to_generate
+        mlcind(j)=MLCind;
+        mlcind(j).generate(mlc_parameters,1);
+    end
+end
+
+
 
 for i=1:numel(mlcind)
     [mlctable,number,already_exist]=mlctable.add_individual(mlcind(i));

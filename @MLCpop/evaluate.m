@@ -45,9 +45,9 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
            
             
             nidx=length(eval_idx);
-            ppm = ParforProgMon('MLC multithread evaluation', nidx);
+            %ppm = ParforProgMon('MLC multithread evaluation', nidx);
             parfor i=istart:nidx
-                ppm.increment();
+             %   ppm.increment();
                 if verb>3;fprintf('Individual %i from generation %i\n',eval_idx(i),ngen);end
                 if verb>4;fprintf('%s\n',mlctable.individuals(idv_to_evaluate(i)).value);end
                 %retrieve object in the table

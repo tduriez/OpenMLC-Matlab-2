@@ -9,6 +9,10 @@ function [new_ind,fail]=mutate(mlcind,mlc_parameters)
             [newvalue,fail]=mutate_ga(mlcind.value,mlc_parameters);
             new_ind=MLCind;
             new_ind.generate(mlc_parameters,newvalue);
+    case 'ga_integer_permutation'
+            [newvalue,fail]=mutate_ga_integer_permutation(mlcind.value,mlc_parameters);
+            new_ind=MLCind;
+            new_ind.generate(mlc_parameters,newvalue);
     end
             
 

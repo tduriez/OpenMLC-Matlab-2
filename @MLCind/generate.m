@@ -24,7 +24,6 @@ function mlcind=generate(mlcind,mlc_parameters,varargin)
 %
 %    You should have received a copy of the GNU General Public License
 %    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 switch mlc_parameters.individual_type
     case 'tree'
         mlcind.type='tree';
@@ -57,6 +56,23 @@ switch mlc_parameters.individual_type
         mlcind.hash=hex2num(bit32(1:16));
         mlcind.formal=[];
         mlcind.complexity=0;
+        
+    case 'ga_integer_permutation'
+        
+        mlcind.type='ga_integer_permutation';
+        type=varargin{1};
+        if numel(type)==1
+            for i=1:mlc_parameters.controls
+                mlcind.value=generate_indiv_ga_integer_permutation(mlc_parameters);
+            end
+        else
+            mlcind.value=type;
+        end
+        bit32=DataHash(mlcind.value);
+        mlcind.hash=hex2num(bit32(1:16));
+        mlcind.formal=[];
+        mlcind.complexity=0;
+        
 	
 end
 
