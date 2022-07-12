@@ -14,6 +14,10 @@ elseif s(1)==2 && s(2)==mlc_parameters.sensors
     ranges=abs(diff(mlc_parameters.range)/2);
     values=(rand(n_indiv_to_generate,mlc_parameters.sensors)*2-1).*repmat(ranges,[n_indiv_to_generate 1])+repmat(offsets,[n_indiv_to_generate 1]);
 end
+if mlc_parameters.precision>0
+    values=round(values*10^mlc_parameters.precision)/10^mlc_parameters.precision;
+end
+
 
 parfor j=1:n_indiv_to_generate
     mlcind(j)=MLCind;

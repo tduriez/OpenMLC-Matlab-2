@@ -26,7 +26,6 @@ function [mlcpop2,mlctable]=evolve(mlcpop,mlc_parameters,mlctable,mlcpop2)
         %% elitism
         if nargin < 4
             for i_el=1:ceil(mlc_parameters.elitism/length(idxsubgen2));
-                
                 idv_orig=idx_source_pool(i_el);
                 idv_dest=idxsubgen2{i}(individuals_created+1);
                 mlcpop2.individuals(idv_dest)=mlcpop.individuals(idv_orig);

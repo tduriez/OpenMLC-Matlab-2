@@ -29,6 +29,10 @@ elseif s(1)==2 && s(2)==gen_param.sensors
     m=(rand(1,gen_param.sensors)*2-1).*ranges+offsets;
 end
 
+if gen_param.precision>0
+    m=round(m*10^gen_param.precision)/gen_param.precision;
+end
+
 
     
 
