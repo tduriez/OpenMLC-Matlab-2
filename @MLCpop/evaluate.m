@@ -110,8 +110,8 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
         
     parfor i=1:length(eval_idx);
       %  save test idv_to_evaluate
-        idvs(i).evaluate(JJ(i));
-        J2(i)=idvs(i).cost;
+        idvs(i).evaluate(JJ(:,i));
+        J2(:,i)=idvs(i).cost;
         idvs(i).comment='';
     end
     mlctable.individuals(idv_to_evaluate)=idvs;
@@ -120,13 +120,16 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
         fprintf('Parralel computing not possible, updating database slowly\n')
        for i=1:length(eval_idx);
       %  save test idv_to_evaluate
-        idvs(i).evaluate(JJ(i));
-        J2(i)=idvs(i).cost;
+        idvs(i).evaluate(JJ(:,i));
+        J2(:,i)=idvs(i).cost;
        end
        
        mlctable.costlist(idv_to_evaluate)=J2;
     end
     mlcpop.costs(eval_idx)=J2;
+    if mlc_parameters.objectives>1
+    mlcpop.ParetoRank=getParetoRank(J2);
+    end
 end
 
 

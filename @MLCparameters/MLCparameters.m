@@ -30,6 +30,7 @@ properties
     sensor_spec
     sensor_list
     controls
+    objectives
     sensor_prob
     leaf_prob
     range

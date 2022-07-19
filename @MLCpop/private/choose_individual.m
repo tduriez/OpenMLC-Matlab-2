@@ -31,6 +31,19 @@ switch mlc_parameters.selectionmethod
         idx=find(sign(rand-probs)==-1,1);
         idv_orig=idx_source_pool(idx);
         
+    case 'MultiTournament'
+        selected=zeros(1,mlc_parameters.tournamentsize);  %% initialisation of selected individuals for tournament
+        for i=1:mlc_parameters.tournamentsize             %% selecting the individuals
+            n=ceil(rand*length(idx_source_pool));         %% random integer between 1 and length(idx_source_pool)
+            while max(n==selected)                        %% avoid repetition 
+                n=ceil(rand*length(idx_source_pool));
+            end
+            selected(i)=idx_source_pool(n);
+        end
+        [themin]=min(mlcpop.ParetoRank(selected));
+        idx=find(mlcpop.ParetoRank(selected)==themin);
+        idv_orig=selected(idx(randi(length(idx))));
+        
         
 end
 
