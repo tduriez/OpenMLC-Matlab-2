@@ -81,7 +81,7 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
                 if verb>2;fprintf('%s\n',mlctable.individuals(idv_to_evaluate(i)).value);end
                 %retrieve object in the table
                 m=mlctable.individuals((idv_to_evaluate(i)));
-                JJ(i)=feval(f,m,mlc_parameters,i);
+                JJ(1:mlc_parameters.objectives,i)=feval(f,m,mlc_parameters,i);
                 date_ev(i)=now;
             end
             
@@ -124,9 +124,9 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
         J2(:,i)=idvs(i).cost;
        end
        
-       mlctable.costlist(idv_to_evaluate)=J2;
+       mlctable.costlist(:,idv_to_evaluate)=J2;
     end
-    mlcpop.costs(eval_idx)=J2;
+    mlcpop.costs(:,eval_idx)=J2;
     if mlc_parameters.objectives>1
     mlcpop.ParetoRank=getParetoRank(J2);
     end
