@@ -11,24 +11,25 @@ function J=toy_problem_multi(idv,params,i,fig)
 %   This file is part of the OpenMLC toolbox 
 s=params.problem_variables.time;
 b=params.problem_variables.b;
-phase=params.problem_variables.phase;
+
 b2=b*0;
 try
 m=idv.formal;
 m=strrep(m,'S0','s');
 eval(['b2=b2+' m ';'])
-J(1,1)=abs(max(b2)-min(b2)-4);
-J(2,1)=sqrt(sum((phase-angle(hilbert(b2))).^2));
+J(1,1)=sqrt(sum((b2-b).^2))/length(s);
+J(2,1)=idv.complexity;
 catch err
     J(1:2,1)=params.badvalue;
     fprintf(err.message);
+    keyboard
 end
 
 if nargin==4
     subplot(2,1,1)
-    plot(s,b,'*','marker','o','markersize',8,'color','k');hold on
-    plot(s,b2,'-k','linewidth',1.2);hold  off
-    set(gca,'fontsize',13,'xlim',[min(s(:)),max(s(:))],'ylim',[min(b(:))-0.1*(max(b(:))-min(b(:))),max(b(:))+0.1*(max(b(:))-min(b(:)))])
+    plot(s,b-mean(b),'*','marker','o','markersize',8,'color','k');hold on
+    plot(s,b2-mean(b2),'-k','linewidth',1.2);hold  off
+    set(gca,'fontsize',13,'xlim',[min(s(:)),max(s(:))],'ylim',[min(b(:))-0.1*(max(b(:))-min(b(:))),max(b(:))+0.1*(max(b(:))-min(b(:)))]-mean(b))
     l=legend('$b_i$','${K(s_i)}$');
     set(l,'location','northwest','interpreter','latex')
     grid on

@@ -39,8 +39,8 @@ parameters.verbose=[0 0 0 0 0 0];
 parameters.fgen=250;
 parameters.show_best=1;
 parameters.problem_variables.time=-10:0.01:10;
-parameters.problem_variables.b=sin(1.256*parameters.problem_variables.time)+1.2;
-parameters.problem_variables.phase=angle(hilbert(parameters.problem_variables.b));
+parameters.problem_variables.b=0.5*parameters.problem_variables.time.^2+sin(1.256*parameters.problem_variables.time)+1.2;
+
 
 
 

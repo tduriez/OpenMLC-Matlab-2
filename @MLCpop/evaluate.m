@@ -127,9 +127,7 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
        mlctable.costlist(:,idv_to_evaluate)=J2;
     end
     mlcpop.costs(:,eval_idx)=J2;
-    if mlc_parameters.objectives>1
-    mlcpop.ParetoRank=getParetoRank(J2);
-    end
+    
 end
 
 
