@@ -30,7 +30,6 @@ elseif s(1)==2 && s(2)==gen_param.sensors
 end
 
 if gen_param.precision>=0
-%     m=round(m*10^gen_param.precision)/gen_param.precision;
     m=round(m,gen_param.precision);
 end
 
