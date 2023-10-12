@@ -51,6 +51,7 @@ properties
     ramp
     maxtries
     mutation_types
+    micronetworkOptions
     
     elitism
     probrep
@@ -110,7 +111,7 @@ methods
         idx=strfind(mlcdir,'@MLCparameters');
         mlcdir=mlcdir(1:idx-1);
         run(fullfile(mlcdir,'@MLCparameters','private','MLCparameters_default.m'));
-
+        parameters.micronetworkOptions=setMicronetworkDefaultParameters();
         %% Call configuration script if present
         if nargin==1
             fprintf(1,'%s\n',filename);
