@@ -57,6 +57,22 @@ switch mlc_parameters.individual_type
         mlcind.hash=hex2num(bit32(1:16));
         mlcind.formal=[];
         mlcind.complexity=0;
+    case 'micronetwork'
+        mlcind.type='micronetwork';
+        mlcind.value='(root @)';
+        type=varargin{1};
+        if ~ischar(type)
+            for i=1:mlc_parameters.controls
+                mlcind.value=generate_indiv_regressive_micronetwork(mlcind.value,mlc_parameters,type);
+                mlcind.value=generateConstantsMicronetwork(mlcind.value,mlc_parameters);
+            end
+        else
+            mlcind.value=type;
+        end
+        bit32=DataHash(mlcind.value);
+        mlcind.hash=hex2num(bit32(1:16));
+        %mlcind.formal=readmylisp_to_formal_MLC(mlcind.value,mlc_parameters);
+        %mlcind.complexity=tree_complexity(mlcind.value,mlc_parameters);
 	
 end
 
