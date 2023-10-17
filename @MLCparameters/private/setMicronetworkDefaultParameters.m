@@ -6,6 +6,7 @@ function micronetworkOptions=setMicronetworkDefaultParameters()
  micronetworkOptions.minWidth=0.5;
  micronetworkOptions.maxWidth=4;
  micronetworkOptions.stepWidth=0.01;
+micronetworkOptions.ConstantChangeProb=0.25;
  
 micronetworkOptions.mul=1.13*10^-3; % Liquid dynamic viscosity
 micronetworkOptions.mug=20*10^-8; % Gaz dynamic viscosity

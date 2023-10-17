@@ -18,6 +18,7 @@ function [m,fail]=mutate_network(m,gen_param,forcetype)
             [m]=extract_subtree(m,gen_param.mutmindepth,gen_param.maxdepth,gen_param.maxdepth);	 
             %% grow new subtree
             [m]=generate_indiv_regressive_micronetwork(m,gen_param,0);
+            m=generateConstantsMicronetwork(m,gen_param);
             if isempty(m)
                 preevok=1;
             else
@@ -42,7 +43,8 @@ function [m,fail]=mutate_network(m,gen_param,forcetype)
         end
         %% mutation 'reparametrization'
         case 2
-            [m]=reparam_tree(m,gen_param);
+          
+            [m]=reparam_network(m,gen_param);
         %% mutation 'hoist' : subtree becomes the tree
         case 3
             
@@ -78,19 +80,8 @@ function [m,fail]=mutate_network(m,gen_param,forcetype)
         case 4
             m=extract_subtree(m,gen_param.mutmindepth,gen_param.maxdepth,gen_param.maxdepth);
             m=generate_indiv_regressive_micronetwork(m,gen_param,4);
-            if ~isempty(m)
-            if gen_param.sensor_spec
-                slist=sort(gen_param.sensor_list);
-                for i=length(slist):-1:1
-                    m=strrep(m,['z' num2str(i-1)],['S' num2str(slist(i))]);
-                end
-            else
-                for i=gen_param.sensors:-1:1                   
-                    m=strrep(m,['z' num2str(i-1)],['S' num2str(i-1)]);
-                end
-
-            end
-            end
+            m=generateConstantsMicronetwork(m,gen_param);
+            
     end
     if isempty(m)
         fail=1;
