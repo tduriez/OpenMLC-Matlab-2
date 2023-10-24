@@ -22,7 +22,7 @@ function out=compare(mlcind,mlcind2)
 switch mlcind.type
 	case 'tree'
             out=strcmp(mlcind.value,mlcind2.value);
-    case 'network'
+    case 'micronetwork'
             out=strcmp(mlcind.value,mlcind2.value);
 	case 'ga'
 		out=all(mlcind.value==mlcind2.value);
