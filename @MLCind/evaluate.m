@@ -24,7 +24,7 @@ if nargin<3
     end
     mlcind.cost_history=[mlcind.cost_history J];
     mlcind.evaluation_time=[mlcind.evaluation_time evtime];
-    mlcind.cost=mean(mlcind.cost_history);
+    mlcind.cost=mean(mlcind.cost_history,2);
 end
 
 

@@ -4,6 +4,7 @@
         parameters.sensors=1;
         parameters.sensor_spec=0;
         parameters.controls=1;
+        parameters.objectives=1;
         parameters.sensor_prob=0.33;
         parameters.leaf_prob=0.3;
         parameters.range=10;
