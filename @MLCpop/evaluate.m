@@ -81,7 +81,7 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
                 if verb>2;fprintf('%s\n',mlctable.individuals(idv_to_evaluate(i)).value);end
                 %retrieve object in the table
                 m=mlctable.individuals((idv_to_evaluate(i)));
-                JJ(i)=feval(f,m,mlc_parameters,i);
+                JJ(1:mlc_parameters.objectives,i)=feval(f,m,mlc_parameters,i);
                 date_ev(i)=now;
             end
             
@@ -110,8 +110,8 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
         
     parfor i=1:length(eval_idx);
       %  save test idv_to_evaluate
-        idvs(i).evaluate(JJ(i));
-        J2(i)=idvs(i).cost;
+        idvs(i).evaluate(JJ(:,i));
+        J2(:,i)=idvs(i).cost;
         idvs(i).comment='';
     end
     mlctable.individuals(idv_to_evaluate)=idvs;
@@ -120,13 +120,18 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
         fprintf('Parralel computing not possible, updating database slowly\n')
        for i=1:length(eval_idx);
       %  save test idv_to_evaluate
-        idvs(i).evaluate(JJ(i));
-        J2(i)=idvs(i).cost;
+        idvs(i).evaluate(JJ(:,i));
+        J2(:,i)=idvs(i).cost;
        end
        
+<<<<<<< HEAD
        mlctable.costlist(size(J2,1),idv_to_evaluate)=J2;
+=======
+       mlctable.costlist(:,idv_to_evaluate)=J2;
+>>>>>>> b3019f080061b6dfa13c8eb4a949d52d9dc95cd2
     end
-    mlcpop.costs(eval_idx)=J2;
+    mlcpop.costs(:,eval_idx)=J2;
+    
 end
 
 
