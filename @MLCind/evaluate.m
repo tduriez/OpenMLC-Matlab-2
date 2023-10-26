@@ -21,10 +21,13 @@ function mlcind=evaluate(mlcind,J,evtime)
 
 if nargin<3
         evtime=now;
-    end
+end
     mlcind.cost_history=[mlcind.cost_history J];
     mlcind.evaluation_time=[mlcind.evaluation_time evtime];
+
+    
     mlcind.cost=mean(mlcind.cost_history,2);
+
 end
 
 
