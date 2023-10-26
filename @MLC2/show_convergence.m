@@ -40,8 +40,7 @@ if nargin<2
             ngen=ngen-1;
         end
     nhisto=1000;
-    Jmax=max(mlc.population(ngen).costs(mlc.population(ngen).costs<mlc.parameters.badvalue));
-    Jmin=min(mlc.population(ngen).costs);
+    
     linlog=0;
     maxsat=1;
 elseif (nargin>1 && nargin <6) || nargin >8 
@@ -73,9 +72,12 @@ selJ =zeros(1,length(pop));
     
     nb=length(pop(end).costs);
     J=zeros(nb,length(pop));
+
     for i=1:length(pop)
-        J(:,i)=pop(i).costs(1:nb);
+        J(:,i)=pop(i).costs(1,1:nb)';
     end
+Jmax=max(J(J(:)<mlc.parameters.badvalue));
+    Jmin=min(J(:));
       % J=1./J-1; % From adjusted fitness to goal functional
      
      nind=size(J,1);
@@ -124,11 +126,11 @@ selJ =zeros(1,length(pop));
      %clb=colorbar;set(clb,'fontsize',20,'linewidth',2,'fontweight','bold')
      
      for i=1:ngen
-        bestJ(i)=pop(i).costs(1);
-        medJ(i)=median(pop(i).costs);
+        bestJ(i)=pop(i).costs(1,1);
+        medJ(i)=median(pop(i).costs(1,:));
     end
      
-     if strcmp(mlc.parameters.selectionmethod,'tournament')
+     if strcmp(mlc.parameters.selectionmethod,'tournament') || strcmp(mlc.parameters.selectionmethod,'MultiTournament')
         tsize=mlc.parameters.tournamentsize;
         prob_sel=tsize*((mlc.parameters.size(end)-(1:mlc.parameters.size(end)))/(mlc.parameters.size(end)-1)).^(tsize-1);
         [~,k]=min(abs(cumtrapz(prob_sel)-mlc.parameters.size(end)*0.99));
@@ -140,7 +142,9 @@ selJ =zeros(1,length(pop));
         try
             heval=@(a,b,c,d)(a+b+c+d);
             eval(['heval=@' mlc.parameters.evaluation_function ';']);
-            J0=feval(heval,'0',mlc.parameters,1);
+            idv0=MLCind;
+            idv0.generate(mlc.parameters,'(root 0)');
+            J0=feval(heval,idv0,mlc.parameters,1);
             hold on;p0=plot3(1:ngen,(1:ngen)*0+J0,(1:ngen)*0+max(max(histo(1:end-1,:)))+1,'--r','linewidth',1.2);
             hold on;p1=plot3([1:ngen;1:ngen;1:ngen;1:ngen]',[bestJ;medJ;(1:ngen)*0+J0;selJ]',[bestJ;bestJ;medJ;selJ]'*0+max(max(histo(1:end-1,:)))+1,'linewidth',2);
             hold off

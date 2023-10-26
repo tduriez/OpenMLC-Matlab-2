@@ -1,4 +1,4 @@
-function J=toy_problem_multi(idv,params,i,fig)
+function J=toy_problem_multi(idv,params,idx,fig)
 %TOY_PROBLEM implements a simple regression for MLC
 %   J=TOY_PROBLEM(IND,MLC_PARAMETERS)   returns the average distance
 %       between the relation described by the LISP expression IND and the
@@ -12,15 +12,15 @@ function J=toy_problem_multi(idv,params,i,fig)
 s=params.problem_variables.time;
 b=params.problem_variables.b;
 
-for i=1:length(idv)
 
+for i=1:length(idv)
 b2=b*0;
 try
-m=idv.formal;
+m=idv(i).formal;
 m=strrep(m,'S0','s');
 eval(['b2=b2+' m ';'])
 J(1,i)=sqrt(sum((b2-b).^2))/length(s);
-J(2,i)=idv.complexity;
+J(2,i)=idv(i).complexity;
 catch err
     J(1:2,i)=params.badvalue;
     fprintf(err.message);
@@ -28,8 +28,8 @@ catch err
 end
 c2(i,:)=b2;
 
-
 end
+
 
 if nargin==4
     subplot(2,1,1)
