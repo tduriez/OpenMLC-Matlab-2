@@ -1,10 +1,10 @@
 function micronetworkOptions=setMicronetworkDefaultParameters()
 
- micronetworkOptions.minLength=1;
+ micronetworkOptions.minLength=0.1;
  micronetworkOptions.maxLength=10;
  micronetworkOptions.stepLength=0.01;
- micronetworkOptions.minWidth=0.5;
- micronetworkOptions.maxWidth=4;
+ micronetworkOptions.minWidth=0.05;
+ micronetworkOptions.maxWidth=10;
  micronetworkOptions.stepWidth=0.01;
 micronetworkOptions.ConstantChangeProb=0.25;
  
