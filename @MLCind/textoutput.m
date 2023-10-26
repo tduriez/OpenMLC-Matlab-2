@@ -5,6 +5,8 @@ switch mlcind.type
         fprintf([mlcind.value '\n']);
 	case 'ga'
         disp(mlcind.value);
+    case 'network'
+        fprintf([mlcind.value '\n']);
 end
 
 

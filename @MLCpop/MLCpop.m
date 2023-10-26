@@ -3,6 +3,7 @@ classdef MLCpop < handle
     properties
         individuals
         costs
+        ParetoRank
         gen_method
         parents
         state
@@ -36,7 +37,7 @@ classdef MLCpop < handle
                 gensize=mlc_parameters.size(1);
             end    
             obj.individuals=zeros(1,gensize)-1;
-            obj.costs=zeros(1,gensize)-1;
+            obj.costs=zeros(mlc_parameters.objectives,gensize)-1;
             obj.gen_method=zeros(1,gensize)-1;
             obj.parents=cell(1,gensize);
             obj.state='init';

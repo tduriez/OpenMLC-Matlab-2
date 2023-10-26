@@ -2,7 +2,7 @@ function [mlcpop,mlctable]=create(mlcpop,mlc_parameters,mlctable)
 %copyright
 verb=mlc_parameters.verbose;
 if nargin<3
-    mlctable=MLCtable(mlc_parameters.size(1)*50);
+    mlctable=MLCtable(mlc_parameters.size(1)*50,mlc_parameters);
 end
 %% determine number of individuals to create;
 indiv_to_generate=find(mlcpop.individuals==-1);
