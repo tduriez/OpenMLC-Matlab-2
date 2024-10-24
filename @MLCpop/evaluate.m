@@ -123,15 +123,11 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
         idvs(i).evaluate(JJ(:,i));
         J2(:,i)=idvs(i).cost;
        end
-       
-<<<<<<< HEAD
+
        mlctable.costlist(size(J2,1),idv_to_evaluate)=J2;
-=======
-       mlctable.costlist(:,idv_to_evaluate)=J2;
->>>>>>> b3019f080061b6dfa13c8eb4a949d52d9dc95cd2
     end
     mlcpop.costs(:,eval_idx)=J2;
-    
+
 end
 
 
