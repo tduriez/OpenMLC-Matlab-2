@@ -91,10 +91,21 @@ end
                     newexp='(l L W)';
                     m=[begstr newexp endstr];
             else
-                    m=[begstr '(+ L W @ @)' endstr];
-                    [m]=generate_indiv_regressive_micronetwork(m,gen_param,type);
-                    [m]=generate_indiv_regressive_micronetwork(m,gen_param,type);
-                
+                    r=rand;
+                    if r<0.5
+                        n=2;
+                    elseif r>=0.5 && r<0.75
+                        n=3;
+                    elseif r>=0.75 && r<0.90
+                        n=4;
+                    else
+                        n=5;
+                    end
+                    pattern=repmat(' @',[1 n]);
+                    m=sprintf('%s(+ L W%s)%s',begstr,pattern,endstr);
+                    for i=1:n
+                        [m]=generate_indiv_regressive_micronetwork(m,gen_param,type);
+                    end
             end    
     end
 end

@@ -46,18 +46,23 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
             
             nidx=length(eval_idx);
           %  ppm = ParforProgMon('MLC multithread evaluation', nidx);
-            parfor i=istart:nidx
+          JJ=zeros(mlc_parameters.objectives,length(istart:nidx))';
+            try
+            for i=istart:nidx
            %     ppm.increment();
                 if verb>3;fprintf('Individual %i from generation %i\n',eval_idx(i),ngen);end
                 if verb>4;fprintf('%s\n',mlctable.individuals(idv_to_evaluate(i)).value);end
                 %retrieve object in the table
                 m=mlctable.individuals((idv_to_evaluate(i)));
-                JJ(i)=feval(f,m,mlc_parameters,i);
+                JJ(i,:)=feval(f,m,mlc_parameters,i)';
                 
                 date_ev(i)=now;
                 if verb>2;loopprog(nidx);end
             end
-           
+            catch err
+                keyboard
+            end
+           JJ=JJ';
             
            
             case 'mfile_all'
@@ -124,11 +129,9 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
         J2(:,i)=idvs(i).cost;
        end
        
-<<<<<<< HEAD
-       mlctable.costlist(size(J2,1),idv_to_evaluate)=J2;
-=======
-       mlctable.costlist(:,idv_to_evaluate)=J2;
->>>>>>> b3019f080061b6dfa13c8eb4a949d52d9dc95cd2
+    
+       mlctable.costlist(1:size(J2,1),idv_to_evaluate)=J2;
+
     end
     mlcpop.costs(:,eval_idx)=J2;
     
