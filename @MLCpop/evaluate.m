@@ -57,17 +57,18 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
           
           JJ=zeros(mlc_parameters.objectives,length(istart:nidx))';
             try
+                pw = PoolWaitbar(nidx,sprintf('Evaluating generation %d',mlcpop.gen), 0.1, 0.9);
             parfor i=istart:nidx
-           %     ppm.increment();
                 if verb>3;fprintf('Individual %i from generation %i\n',eval_idx(i),ngen);end
                 if verb>4;fprintf('%s\n',mlctable.individuals(idv_to_evaluate(i)).value);end
                 %retrieve object in the table
                 m=mlctable.individuals((idv_to_evaluate(i)));
                 JJ(i,:)=feval(f,m,mlc_parameters,i)';
-                
+                increment(pw);
                 date_ev(i)=now;
                 
             end
+            delete(pw)
                 
             catch err
                 keyboard

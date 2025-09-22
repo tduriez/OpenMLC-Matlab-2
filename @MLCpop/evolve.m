@@ -24,8 +24,16 @@ function [mlcpop2,mlctable]=evolve(mlcpop,mlc_parameters,mlctable,mlcpop2)
         end
         individuals_created=0;
         %% elitism
+        
+        
         if nargin < 4
-            for i_el=1:ceil(mlc_parameters.elitism/length(idxsubgen2));
+            if mlc_parameters.objectives>1
+                n_firstpareto=sum(mlcpop.ParetoRank==1);
+                n_el=max(mlc_parameters.elitism,n_firstpareto);
+            else
+                n_el=mlc_parameters.elitism;
+            end
+            for i_el=1:ceil(n_el/length(idxsubgen2))
                 idv_orig=idx_source_pool(i_el);
                 idv_dest=idxsubgen2{i}(individuals_created+1);
                 mlcpop2.individuals(idv_dest)=mlcpop.individuals(idv_orig);
