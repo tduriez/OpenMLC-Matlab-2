@@ -1,4 +1,4 @@
-function stats(mlc,nb)
+function stats(mlc,nb,thename)
 %STATS    Method of the MLC class. Computes statistics.
 %
 %   MLC_OBJ.STATS displays statistics on the MLC process. Show statistics
@@ -38,6 +38,7 @@ for ngen=sgen:lgen;
         fprintf('Maybe start the GP before you ask some stats\n');
         fprintf('(And that''s me beeing polite here...)\n');
     else
+        if mlc.parameters.objectives==1
         [minJ,k]=min(mlc.population(ngen).costs);
         bestidv=mlc.table.individuals(mlc.population(ngen).individuals(k));
         meanJ=mean(mlc.population(ngen).costs(mlc.population(ngen).costs<mlc.parameters.badvalue));
@@ -58,6 +59,9 @@ for ngen=sgen:lgen;
         fprintf('Average J of population:\t\t %e\n',meanJ);
         fprintf('Std deviation of J in Population:\t %e\n',stdJ);
         fprintf('Average and std computed for values below %e (%i cases)\n',mlc.parameters.badvalue,toohigh);
+        else
+            mlc.ParetoStats(ngen,thename);
+        end
         if ngen<lgen;fprintf('\n\n');end
     end
 end
