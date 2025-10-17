@@ -47,7 +47,7 @@ function mlc=evaluate_population(mlc,n)
             elim=1;
     end
     
-    if elim==1;
+    if elim==1
         [mlc.population(n),idx]=mlc.population(n).remove_bad_indivs(mlc.parameters);
         while ~isempty(idx)
             [mlc.population(n),mlc.table]=mlc.population(n).create(mlc.parameters,mlc.table);
