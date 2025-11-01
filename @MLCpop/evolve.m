@@ -30,6 +30,9 @@ function [mlcpop2,mlctable]=evolve(mlcpop,mlc_parameters,mlctable,mlcpop2)
             if mlc_parameters.objectives>1
                 n_firstpareto=sum(mlcpop.ParetoRank==1);
                 n_el=max(mlc_parameters.elitism,n_firstpareto);
+                if n_el/mlc_parameters.size>0.3
+                    n_el=floor(mlc_parameters.size*0.3);
+                end
             else
                 n_el=mlc_parameters.elitism;
             end

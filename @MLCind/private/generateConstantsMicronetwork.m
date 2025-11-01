@@ -29,7 +29,7 @@ function value=generateConstantsMicronetwork(value,mlc_parameters)
         idxW=strfind(value,'W');
         beg=value(1:idxW(1)-1);
         en=value(idxW(1)+1:end);
-        value=[beg num2str(Ws(1),mlc_parameters.precision) en];
+        value=[beg num2str(Ws(i),mlc_parameters.precision) en];
     end
     
     
