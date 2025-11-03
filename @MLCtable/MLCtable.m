@@ -4,6 +4,7 @@ classdef MLCtable < handle
         individuals
         hashlist
         costlist
+        ParetoRank
         number
     end
     
@@ -11,6 +12,8 @@ classdef MLCtable < handle
         [obj,number,already_exist]=add_individual(obj,mlcind)
         idx=find_individual(obj,mlcind)
         obj=update_individual(obj,idx,J);
+        obj=getParetoRank(obj);
+        showParetoFronts(obj,n);
   
         function obj=MLCtable(Nind,mlc_parameters)
             if nargin<1
