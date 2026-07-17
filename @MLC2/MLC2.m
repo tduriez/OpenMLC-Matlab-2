@@ -77,16 +77,9 @@ classdef MLC2 < handle
             obj.parameters=MLCparameters(varargin{:});
             obj.parameters.opset=opset(obj.parameters.opsetrange);
             obj.version=vers;
-            
-            
-            
-            
-            
-            
-            
-            
-            
         end
+        
+        mlcc=plus(mlca,mlcb);
     end
 end
             

@@ -19,7 +19,7 @@ function obj=insert_individual(obj,idv)
         idv.generate(obj.parameters,temp);
     end
     if isempty(obj.table)
-         obj.table=MLCtable(obj.parameters.size(1)*50);
+         obj.table=MLCtable(obj.parameters.size(1)*50,obj.parameters);
     end
     [~,number]=obj.table.add_individual(idv);
     
