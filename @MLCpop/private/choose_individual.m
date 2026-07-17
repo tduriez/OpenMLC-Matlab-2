@@ -40,9 +40,13 @@ switch mlc_parameters.selectionmethod
             end
             selected(i)=idx_source_pool(n);
         end
-        [themin]=min(mlcpop.ParetoRank(selected));
-        idx=find(mlcpop.ParetoRank(selected)==themin);
-        idv_orig=selected(idx(randi(length(idx))));
+        [~,idxmin]=min(mlcpop.ParetoRank(selected));
+        if length(idxmin)==1
+            idv_orig=selected(idxmin);
+        else
+            [~,idxmaxdensity]=max(mlcpop.Density(selected(idxmin)));
+            idv_orig=selected(idxmin(idxmaxdensity));
+        end
         
         
 end

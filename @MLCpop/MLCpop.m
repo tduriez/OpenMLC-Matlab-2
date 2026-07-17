@@ -4,6 +4,7 @@ classdef MLCpop < handle
         individuals
         costs
         ParetoRank
+        Density
         gen_method
         parents
         state

@@ -58,14 +58,21 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
           JJ=zeros(mlc_parameters.objectives,length(istart:nidx))';
             try
                 pw = PoolWaitbar(nidx,sprintf('Evaluating generation %d',mlcpop.gen), 0.1, 0.9);
+                mltabeind=mlctable.individuals(idv_to_evaluate);
+                evall=mlc_parameters.evaluate_all;
             parfor i=istart:nidx
                 if verb>3;fprintf('Individual %i from generation %i\n',eval_idx(i),ngen);end
-                if verb>4;fprintf('%s\n',mlctable.individuals(idv_to_evaluate(i)).value);end
+                if verb>4;fprintf('%s\n',mltabeind(i).value);end
                 %retrieve object in the table
-                m=mlctable.individuals((idv_to_evaluate(i)));
+                m=mltabeind(i);
+                if evall==0 && any(m.cost~=-1)
+fprintf('Individual %i from generation %i alredy known\n',eval_idx(i),ngen)
+                   JJ(i,:)=m.cost;
+                    else
+fprintf('Individual %i from generation %i\n',eval_idx(i),ngen)
                 JJ(i,:)=feval(f,m,mlc_parameters,i)';
+                end
                 increment(pw);
-                date_ev(i)=now;
                 
             end
             delete(pw)
@@ -86,6 +93,7 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
                 
             
             case 'mfile_standalone'
+                try
             eval(['heval=@' mlc_parameters.evaluation_function ';']);
             f=heval;
             for i=istart:length(eval_idx);
@@ -100,6 +108,9 @@ function [mlcpop,mlctable]=evaluate(mlcpop,mlctable,mlc_parameters,eval_idx);
                 JJ(1:mlc_parameters.objectives,i)=feval(f,m,mlc_parameters,i);
                 date_ev(i)=now;
             end
+                catch err
+                    keyboard
+                end
             
             
     end
