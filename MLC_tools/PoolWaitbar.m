@@ -28,10 +28,10 @@ classdef PoolWaitbar < handle
     end
     
     methods (Access = private)
-        function localIncrement(obj,message,popsize)
+        function localIncrement(obj,message)
             obj.Count = 1 + obj.Count;
             current_value = obj.startvalue + (obj.Count/obj.N)*(obj.endvalue-obj.startvalue);   % JB 11/04/2025
-            waitbar(current_value, obj.ClientHandle,[message sprintf(' (%d/%d done)',obj.Count,popsize)]);                                           % modified JB 11/04/2025
+            waitbar(current_value, obj.ClientHandle,[message sprintf(' (%d/%d done)',obj.Count,obj.N)]);                                           % modified JB 11/04/2025
         end
     end
     
@@ -46,7 +46,7 @@ classdef PoolWaitbar < handle
             obj.ClientHandle = waitbar(startvalue, message);
             obj.ClientHandlePublic = obj.ClientHandle;
             obj.Queue = parallel.pool.DataQueue;
-            obj.Listener = afterEach(obj.Queue, @(~) localIncrement(obj,message,popsize));
+            obj.Listener = afterEach(obj.Queue, @(~) localIncrement(obj,message));
         end
         
         function increment(obj)
