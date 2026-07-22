@@ -10,13 +10,15 @@ classdef PoolWaitbar < handle
     properties (SetAccess = immutable, GetAccess = private)
         Queue
         N
+        tstart = tic;
         startvalue      % JB 11/04/2025
         endvalue        % JB 11/04/2025
     end
     
     properties (Access = private, Transient)
         ClientHandle = []
-        Count = 0
+        Count = 0 
+        timeinc
     end
     
     properties (SetAccess = immutable, GetAccess = private, Transient)
@@ -30,13 +32,15 @@ classdef PoolWaitbar < handle
     methods (Access = private)
         function localIncrement(obj,message)
             obj.Count = 1 + obj.Count;
+            obj.timeinc = [obj.timeinc toc(obj.tstart)];
+            timeleft=obj.getfinaltime;
             current_value = obj.startvalue + (obj.Count/obj.N)*(obj.endvalue-obj.startvalue);   % JB 11/04/2025
-            waitbar(current_value, obj.ClientHandle,[message sprintf(' (%d/%d done)',obj.Count,obj.N)]);                                           % modified JB 11/04/2025
+            waitbar(current_value, obj.ClientHandle,[message sprintf(' (%d/%d %d minutes left)',obj.Count,obj.N,timeleft)]);                                           % modified JB 11/04/2025
         end
     end
     
     methods
-        function obj = PoolWaitbar(N, message, startvalue, endvalue,popsize)
+        function obj = PoolWaitbar(N, message, startvalue, endvalue)
             if nargin < 2
                 message = 'PoolWaitbar';
             end
@@ -47,11 +51,24 @@ classdef PoolWaitbar < handle
             obj.ClientHandlePublic = obj.ClientHandle;
             obj.Queue = parallel.pool.DataQueue;
             obj.Listener = afterEach(obj.Queue, @(~) localIncrement(obj,message));
+            obj.timeinc=obj.tstart;
         end
         
         function increment(obj)
             send(obj.Queue, true);
         end
+        
+        function ft=getfinaltime(obj)
+            times=obj.timeinc;
+            times(1)=0;
+            times=sort(times);
+            dts=diff(times);
+            dts=dts(dts>2);
+            ft=(obj.N-obj.Count)*median(dts)/60;
+        end
+            
+        
+                
         
         function delete(obj)
             delete(obj.ClientHandle);
