@@ -91,16 +91,8 @@ end
                     newexp='(l L W)';
                     m=[begstr newexp endstr];
             else
-                    r=rand;
-                    if r<0.5
-                        n=2;
-                    elseif r>=0.5 && r<0.75
-                        n=3;
-                    elseif r>=0.75 && r<0.90
-                        n=4;
-                    else
-                        n=5;
-                    end
+                    
+                    n=nodemultiplicity(gen_param);
                     pattern=repmat(' @',[1 n]);
                     m=sprintf('%s(+ L W%s)%s',begstr,pattern,endstr);
                     for i=1:n
@@ -109,6 +101,48 @@ end
             end    
     end
 end
+
+function n=nodemultiplicity(gen_param)
+    r=rand;
+    if isfield(gen_param.micronetworkOptions,'multiplicity')
+        nmax=gen_param.micronetworkOptions.multiplicity.nmax;
+        law=gen_param.micronetworkOptions.multiplicity.law;
+        pmin=gen_param.micronetworkOptions.multiplicity.pmin;
+    else
+        nmax=5;
+        law='linear';
+        pmin=0.05;
+    end
+
+    Bins=buildBins(nmax,law,pmin);
+    a=find(r<Bins);
+    n=a(1);
+end
+
+function [Bins,Probs]=buildBins(Nmax,type,pmin)
+    Probs=1:Nmax-1;
+    
+    switch type
+        case 'linear'
+            f=@(x)(-x);
+            
+        case '1/x'
+            f=@(x)(1./x);
+        case 'uniform'
+            f=@(x)(1);
+            Probs=1/(Nmax-1);
+            Bins=cumsum(Probs);
+            return
+
+    end
+            Probs=f(Probs);
+            Probs=Probs-min(Probs);
+            alpha=(1-(Nmax-1)*pmin)/sum(Probs);
+            Probs=alpha*Probs+pmin;
+            Bins=cumsum(Probs);
+end
+    
+
 
 
 
