@@ -116,7 +116,8 @@ function n=nodemultiplicity(gen_param)
 
     Bins=buildBins(nmax,law,pmin);
     a=find(r<Bins);
-    n=a(1);
+    n=a(1)+1;
+    
 end
 
 function [Bins,Probs]=buildBins(Nmax,type,pmin)
@@ -130,7 +131,7 @@ function [Bins,Probs]=buildBins(Nmax,type,pmin)
             f=@(x)(1./x);
         case 'uniform'
             f=@(x)(1);
-            Probs=1/(Nmax-1);
+            Probs=1/(Nmax-1)*ones(1,Nmax-1);
             Bins=cumsum(Probs);
             return
 
